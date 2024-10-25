@@ -1,95 +1,101 @@
-import Image from "next/image";
+"use client";
+
+import DelaysByRoute from "./charts/AlertsByRoute";
+import IssueDistribution from "./charts/IssueDistribution";
+import IssueTypeDistribution from "./charts/IssueTypeDistribution";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={styles.mainBlogBody}>
+      <div className={styles.title}>Why is my train delayed?</div>
+      <div className={styles.subtitle}>
+        A study by{" "}
+        <a
+          href="https://drive.usercontent.google.com/download?id=13sXsg-PIn9vp5Gl6bzgOnrPzfehDIar0&authuser=0"
+          target="_blank"
+        >
+          Marcos Acosta
+        </a>{" "}
+        for the{" "}
+        <a
+          href="https://new.mta.info/article/mta-open-data-challenge"
+          target="_blank"
+        >
+          2024 MTA Open Data Challenge
+        </a>
+        .
+      </div>
+      <div className={styles.blogBody}>
+        <div className={styles.blogParagraph}>
+          Cursing the NYCT for unexpected delays is a favorite pastime for New
+          Yorkers (no citation needed). After having gotten used to them myself,
+          I stopped wondering *why* these disruptions happen; "old
+          infrastructure" is an easy explanation. But this leaves a lot of
+          questions: What kind of infrastructure is faulty? Are the delays
+          really mostly due to mechanical problems? Are certain lines, boroughs,
+          or stations more prone to delays? What could be done about it? Let's
+          take a look!
         </div>
+        <div className={styles.blogParagraph}>
+          While there doesn't exist a "pre-made" dataset listing the cause of
+          each delay, we do have the{" "}
+          <a
+            href="https://data.ny.gov/Transportation/MTA-Service-Alerts-Beginning-April-2020/7kct-peq7/about_data"
+            target="_blank"
+          >
+            MTA Service Alerts
+          </a>{" "}
+          dataset, which contains a log of every MTA alert sent out (for delays,
+          service changes, etc.) as well as the affected routes, alert type,
+          etc. Using a bit of basic natural language processing, we can extract
+          information like the most likely cause of the delay and which train
+          station the issue occurred at. The data preparation was actually very
+          fun and involved some tricky problems (like figuring out which "23 St"
+          is being referred to), so check out the <a>GitHub</a> to see the
+          detailed walk-through!
+        </div>
+        <div className={styles.blogParagraph}>
+          Now, we should make note that slight delays happen all the time, and
+          the MTA doesn't always send out an alert every time. But by analyzing
+          the delays which <i>do</i> generate alerts, we can inspect the (more
+          relevant) subset of delays which are big enough for subway riders to
+          care.
+        </div>
+        <div className={styles.blogParagraph}>
+          With that said, let's start simple and take a look at the distribution
+          of issues across all alerts since April 2020.
+        </div>
+        <IssueDistribution />
+        <div className={styles.blogParagraph}>
+          This clears up one source of misunderstanding, which is that{" "}
+          <b>issues caused by individuals</b> (aggression, medical attention,
+          etc.) <b>account for a large proportion of train delays!</b> We can
+          see this another way, by grouping multiple causes together under
+          "umbrella" issues:
+        </div>
+        <IssueTypeDistribution />
+        <div className={styles.blogParagraph}>
+          This is interesting, but this view is a little too high-level to gain
+          much meaningful insight. Our next intuition would lead us to ask,
+          which trains are especially delay-prone? It wouldn't be very
+          interesting to just sum the number of alerts for each service, since
+          "busier" trains (e.g. the A) will naturally get more delay alerts than
+          "less busy" routes (e.g. the G). As a proxy for "business", we can use
+          the <b>planned number of trains delivered</b> for each service, which
+          is available through{" "}
+          <a
+            href="https://data.ny.gov/Transportation/MTA-Subway-Service-Delivered-Beginning-2020/bg59-42xi/about_data"
+            target="_blank"
+          >
+            another MTA dataset
+          </a>{" "}
+          (note that we could use the <i>actual</i> number of trains delivered
+          as well, but this metric is directly correlated with the number of
+          delays). When we do this, this is what we find:
+        </div>
+        <DelaysByRoute />
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
