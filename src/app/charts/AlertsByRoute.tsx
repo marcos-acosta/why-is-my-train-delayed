@@ -37,7 +37,7 @@ const data = [
   { Route: "H", "Delays per train planned": 1.5908764588845816 },
 ];
 
-const ROUTE_TO_TRUNK_LINE = {
+const ROUTE_TO_TRUNK_LINE: { [key: string]: any } = {
   A: "IND Eighth Av",
   C: "IND Eighth Av",
   E: "IND Eighth Av",
@@ -62,7 +62,7 @@ const ROUTE_TO_TRUNK_LINE = {
   H: "Other",
 };
 
-const TRUNK_TO_COLOR = {
+const TRUNK_TO_COLOR: { [key: string]: any } = {
   "IND Eighth Av": "#0039a6",
   "IND Sixth Av": "#ff6319",
   "IND Crosstown": "#6cbe45",
@@ -91,7 +91,7 @@ export default class DelaysByRoute extends PureComponent {
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={this.state.chartData}
+            data={(this.state as { [key: string]: any }).chartData}
             layout="vertical"
             margin={{
               top: 5,
@@ -113,10 +113,14 @@ export default class DelaysByRoute extends PureComponent {
               wrapperStyle={{ fontFamily: "Helvetica", fontSize: "1vw" }}
             />
             <Bar dataKey="Delays per train planned">
-              {data.map((entry: object, index: number) => (
+              {data.map((entry: { [key: string]: any }, index: number) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={TRUNK_TO_COLOR[ROUTE_TO_TRUNK_LINE[entry["Route"]]]}
+                  fill={
+                    TRUNK_TO_COLOR[
+                      ROUTE_TO_TRUNK_LINE[entry["Route"] as string] as string
+                    ]
+                  }
                 />
               ))}
             </Bar>
