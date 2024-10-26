@@ -16,3 +16,7 @@
 .chartContainer.alertsByRoute {
   height: 800px;
 }
+
+.chartContainer.lineAverages {
+  height: 1000px;
+}

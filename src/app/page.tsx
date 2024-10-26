@@ -1,11 +1,19 @@
 "use client";
 
-import DelaysByRoute from "./charts/AlertsByRoute";
+import { useState } from "react";
 import IssueDistribution from "./charts/IssueDistribution";
 import IssueTypeDistribution from "./charts/IssueTypeDistribution";
 import styles from "./page.module.css";
+import Dropdown from "react-dropdown";
+import { ROUTE_TO_TRUNK_LINE } from "./util";
+import DelaysByRoute from "./charts/AlertsByRoute";
+import LineAverages from "./charts/LineAverages";
 
 export default function Home() {
+  const [selectedLine, setSelectedLine] = useState(
+    undefined as undefined | string
+  );
+
   return (
     <div className={styles.mainBlogBody}>
       <div className={styles.title}>Why is my train delayed?</div>
@@ -53,7 +61,13 @@ export default function Home() {
           station the issue occurred at. The data preparation was actually very
           fun and involved some tricky problems (like figuring out which
           &quot;23 St&quot; is being referred to), so check out the{" "}
-          <a>GitHub</a> to see the detailed walk-through!
+          <a
+            href="https://github.com/marcos-acosta/why-is-my-train-delayed-data"
+            target="_blank"
+          >
+            GitHub
+          </a>{" "}
+          to see the detailed walk-through!
         </div>
         <div className={styles.blogParagraph}>
           Now, we should make note that slight delays happen all the time, and
@@ -96,6 +110,34 @@ export default function Home() {
           delays). When we do this, this is what we find:
         </div>
         <DelaysByRoute />
+        <div className={styles.blogParagraph}>
+          The main takeaway here is that most services are averaging{" "}
+          <b>over one delay event per scheduled train</b>. It seems that the L,
+          7, and G (despite its perpetual planned maintenance) are relatively
+          reliable services. Besides those three, it doesn&apos;t seem to be the
+          case that any one line is significantly more reliable than another,
+          after adjusting for &quot;busy-ness&quot;.
+        </div>
+        <div className={styles.lineSelectorContainer}>
+          <Dropdown
+            options={Object.keys(ROUTE_TO_TRUNK_LINE)}
+            onChange={(e) => setSelectedLine(e.value)}
+            value={selectedLine}
+            placeholder="Select a line!"
+            className={styles.lineSelector}
+          />
+        </div>
+        {!selectedLine ? (
+          <div className={styles.blogParagraph}>
+            For this next part, go ahead and select a line above!
+          </div>
+        ) : (
+          <>
+            <div className={styles.blogParagraph}>Stuff</div>
+            <LineAverages line={selectedLine} />
+            <div className={styles.blogParagraph}></div>
+          </>
+        )}
       </div>
     </div>
   );

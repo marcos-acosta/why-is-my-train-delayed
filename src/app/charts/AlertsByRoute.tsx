@@ -8,9 +8,14 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  Label,
 } from "recharts";
 import styles from "@/app/charts/charts.module.css";
-import { combineClassNames } from "../util";
+import {
+  combineClassNames,
+  ROUTE_TO_TRUNK_LINE,
+  TRUNK_TO_COLOR,
+} from "../util";
 
 const data = [
   { Route: "W", "Delays per train planned": 2.8198874296435275 },
@@ -37,96 +42,52 @@ const data = [
   { Route: "H", "Delays per train planned": 1.5908764588845816 },
 ];
 
-const ROUTE_TO_TRUNK_LINE: { [key: string]: any } = {
-  A: "IND Eighth Av",
-  C: "IND Eighth Av",
-  E: "IND Eighth Av",
-  B: "IND Sixth Av",
-  D: "IND Sixth Av",
-  F: "IND Sixth Av",
-  M: "IND Sixth Av",
-  G: "IND Crosstown",
-  L: "BMT Canarsie",
-  JZ: "BMT Nassau",
-  N: "BMT Broadway",
-  Q: "BMT Broadway",
-  R: "BMT Broadway",
-  W: "BMT Broadway",
-  "1": "IRT Broadway",
-  "2": "IRT Broadway",
-  "3": "IRT Broadway",
-  "4": "IRT Lexington",
-  "5": "IRT Lexington",
-  "6": "IRT Lexington",
-  "7": "IRT Flushing",
-  H: "Other",
-};
-
-const TRUNK_TO_COLOR: { [key: string]: any } = {
-  "IND Eighth Av": "#0039a6",
-  "IND Sixth Av": "#ff6319",
-  "IND Crosstown": "#6cbe45",
-  "BMT Canarsie": "#a7a9ac",
-  "BMT Nassau": "#996633",
-  "BMT Broadway": "#fccc0a",
-  "IRT Broadway": "#ee352e",
-  "IRT Lexington": "#00933c",
-  "IRT Flushing": "#b933ad",
-  Other: "#808183",
-};
-
-export default class DelaysByRoute extends PureComponent {
-  constructor(props: any) {
-    super(props);
-    this.state = { chartData: data };
-  }
-
-  render() {
-    return (
-      <div
-        className={combineClassNames(
-          styles.chartContainer,
-          styles.alertsByRoute
-        )}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={(this.state as { [key: string]: any }).chartData}
-            layout="vertical"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" fontFamily="Helvetica" orientation="top" />
-            <YAxis
-              type="category"
-              dataKey="Route"
-              fontFamily="Helvetica"
-              fontSize="1vw"
-              width={300}
+export default function DelaysByRoute() {
+  return (
+    <div
+      className={combineClassNames(styles.chartContainer, styles.alertsByRoute)}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          layout="vertical"
+          margin={{
+            top: 50,
+            left: 0,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis type="number" fontStyle="Rubik" orientation="top">
+            <Label
+              position="top"
+              value="Number of delay events per train scheduled (Apr. 2020 - Aug. 2024)"
+              fontWeight="bold"
+              offset={20}
             />
-            <Tooltip
-              wrapperStyle={{ fontFamily: "Helvetica", fontSize: "1vw" }}
-            />
-            <Bar dataKey="Delays per train planned">
-              {data.map((entry: { [key: string]: any }, index: number) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={
-                    TRUNK_TO_COLOR[
-                      ROUTE_TO_TRUNK_LINE[entry["Route"] as string] as string
-                    ]
-                  }
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  }
+          </XAxis>
+          <YAxis
+            type="category"
+            dataKey="Route"
+            fontStyle="Rubik"
+            fontSize="1.25vw"
+            width={300}
+          />
+          <Tooltip wrapperStyle={{ font: "Rubik", fontSize: "1vw" }} />
+          <Bar dataKey="Delays per train planned">
+            {data.map((entry: { [key: string]: any }, index: number) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={
+                  TRUNK_TO_COLOR[
+                    ROUTE_TO_TRUNK_LINE[entry["Route"] as string] as string
+                  ]
+                }
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }

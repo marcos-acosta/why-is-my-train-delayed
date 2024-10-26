@@ -2,13 +2,12 @@ import React, { PureComponent } from "react";
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
+  Label,
 } from "recharts";
 import styles from "@/app/charts/charts.module.css";
 import { combineClassNames } from "../util";
@@ -39,25 +38,28 @@ export default class IssueTypeDistribution extends PureComponent {
             data={data}
             layout="vertical"
             margin={{
-              top: 5,
-              right: 30,
+              top: 50,
               left: 0,
               bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" fontFamily="Helvetica" orientation="top" />
+            <XAxis type="number" fontStyle="Rubik" orientation="top">
+              <Label
+                position="top"
+                value="Breakdown of delay events by issue type (Apr. 2020 - Aug. 2024)"
+                fontWeight="bold"
+                offset={20}
+              />
+            </XAxis>
             <YAxis
               type="category"
               dataKey="Issue type"
-              fontFamily="Helvetica"
-              fontSize="1vw"
+              fontStyle="Rubik"
+              fontSize="1.25vw"
               width={300}
             />
-            <Tooltip
-              wrapperStyle={{ fontFamily: "Helvetica", fontSize: "1vw" }}
-            />
-            <Legend fontFamily="Helvetica" verticalAlign="top" />
+            <Tooltip wrapperStyle={{ fontStyle: "Rubik", fontSize: "1vw" }} />
             <Bar
               dataKey="Frequency"
               fill="rgb(236, 106, 20)"
