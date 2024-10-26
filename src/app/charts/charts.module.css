@@ -27,3 +27,7 @@
 .chartContainer.lineAverages {
   height: 1000px;
 }
+
+.pieChartContainer.monthlyAverages {
+  height: 800px;
+}

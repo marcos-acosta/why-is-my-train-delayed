@@ -4,12 +4,16 @@ import { useState } from "react";
 import IssueDistribution from "./charts/IssueDistribution";
 import styles from "./page.module.css";
 import Dropdown from "react-dropdown";
-import { ROUTE_TO_TRUNK_LINE } from "./util";
+import { ISSUES, ROUTE_TO_TRUNK_LINE } from "./util";
 import DelaysByRoute from "./charts/AlertsByRoute";
 import LineAverages from "./charts/LineAverages";
+import MonthlyAverages from "./charts/MonthlyAverages";
 
 export default function Home() {
   const [selectedLine, setSelectedLine] = useState(
+    undefined as undefined | string
+  );
+  const [selectedIssue, setSelectedIssue] = useState(
     undefined as undefined | string
   );
 
@@ -136,6 +140,28 @@ export default function Home() {
               two stations, so it is extremely delay-free (except for when the
               South Channel Bridge opens).
             </div>
+            <div className={styles.blogParagraph}>
+              Next we might wonder, are there any seasonal effects to the issues
+              we&apos;ve identified? To do this, we can look at data across
+              three years and average the number of delay events across years,
+              grouping by the month of the year. We can then explore these
+              yearly averages by issue type.
+            </div>
+            <div className={styles.lineSelectorContainer}>
+              <Dropdown
+                options={ISSUES}
+                onChange={(e) => setSelectedIssue(e.value)}
+                value={selectedIssue}
+                placeholder="Select an issue!"
+                className={styles.lineSelector}
+              />
+            </div>
+            {selectedIssue && (
+              <>
+                <MonthlyAverages issue={selectedIssue} />
+                <div className={styles.blogParagraph}>One thing</div>
+              </>
+            )}
           </>
         )}
       </div>
