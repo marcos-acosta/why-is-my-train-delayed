@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import IssueDistribution from "./charts/IssueDistribution";
-import IssueTypeDistribution from "./charts/IssueTypeDistribution";
 import styles from "./page.module.css";
 import Dropdown from "react-dropdown";
 import { ROUTE_TO_TRUNK_LINE } from "./util";
@@ -84,16 +83,10 @@ export default function Home() {
         <div className={styles.blogParagraph}>
           This clears up one source of misunderstanding, which is that{" "}
           <b>issues caused by individuals</b> (aggression, medical attention,
-          etc.) <b>account for a large proportion of train delays!</b> We can
-          see this another way, by grouping multiple causes together under
-          &quot;umbrella&quot; issues:
-        </div>
-        <IssueTypeDistribution />
-        <div className={styles.blogParagraph}>
-          The next natural question is, are different services
-          disproportionately affected by delays? We can take a naive approach,
-          where we simply count the total number of alerts which affect each
-          service:
+          etc.) <b>account for a large proportion of train delays!</b> The next
+          natural question is, are different services disproportionately
+          affected by delays? We can take a naive approach, where we simply
+          count the total number of alerts which affect each service:
         </div>
         <DelaysByRoute />
         <div className={styles.blogParagraph}>
@@ -140,7 +133,8 @@ export default function Home() {
               problems and rail problems more than average. As one of the few
               services that has ground-level stations, the Q deals with more
               tree issues. Also, the Rockaway Park Shuttle only needs to connect
-              two stations, so it is extremely delay-free.
+              two stations, so it is extremely delay-free (except for when the
+              South Channel Bridge opens).
             </div>
           </>
         )}

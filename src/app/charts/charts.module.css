@@ -5,8 +5,15 @@
   width: 110%;
 }
 
-.chartContainer.issueDistributionContainer {
-  height: 1000px;
+.pieChartContainer {
+  margin-top: 2vw;
+  margin-bottom: 3vw;
+  width: 120%;
+  margin-left: -10%;
+}
+
+.pieChartContainer.issueDistributionContainer {
+  height: 800px;
 }
 
 .chartContainer.issueTypeDistributionContainer {
