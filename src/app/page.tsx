@@ -159,7 +159,7 @@ export default function Home() {
             {selectedIssue && (
               <>
                 <MonthlyAverages issue={selectedIssue} />
-                <div className={styles.blogParagraph}>One thing</div>
+                {/* <div className={styles.blogParagraph}>One thing</div> */}
               </>
             )}
           </>
