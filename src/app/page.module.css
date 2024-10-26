@@ -35,6 +35,7 @@
 }
 
 .lineSelectorContainer {
+  margin-top: 2vw;
   width: 100%;
   display: flex;
   flex-direction: column;

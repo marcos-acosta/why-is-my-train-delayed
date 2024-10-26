@@ -11,11 +11,7 @@ import {
   Label,
 } from "recharts";
 import styles from "@/app/charts/charts.module.css";
-import {
-  combineClassNames,
-  ROUTE_TO_TRUNK_LINE,
-  TRUNK_TO_COLOR,
-} from "../util";
+import { combineClassNames } from "../util";
 import { AVERAGE_ISSUES_BY_LINE, OVERALL_AVERAGE_ISSUES } from "./average_data";
 
 interface LineAveragesProps {
@@ -39,12 +35,12 @@ export default function LineAverages(props: LineAveragesProps) {
         OVERALL_AVERAGE_ISSUES[i].monthly_stddev &&
         line_issue.monthly_average >
           OVERALL_AVERAGE_ISSUES[i].monthly_average +
-            0.5 * OVERALL_AVERAGE_ISSUES[i].monthly_stddev,
+            OVERALL_AVERAGE_ISSUES[i].monthly_stddev,
       under:
         OVERALL_AVERAGE_ISSUES[i].monthly_stddev &&
         line_issue.monthly_average <
           OVERALL_AVERAGE_ISSUES[i].monthly_average -
-            0.5 * OVERALL_AVERAGE_ISSUES[i].monthly_stddev,
+            OVERALL_AVERAGE_ISSUES[i].monthly_stddev,
     }))
     .sort((a, b) => b.overall_monthly_average - a.overall_monthly_average);
   console.log(line_issues_by_month_with_average);
@@ -86,10 +82,10 @@ export default function LineAverages(props: LineAveragesProps) {
                 key={i}
                 fill={
                   issue_frequency.over
-                    ? "red"
+                    ? "rgb(236, 106, 20)"
                     : issue_frequency.under
                     ? "green"
-                    : "black"
+                    : "rgb(46, 46, 46)"
                 }
               />
             ))}

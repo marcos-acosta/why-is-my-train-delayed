@@ -70,11 +70,11 @@ export default function Home() {
           to see the detailed walk-through!
         </div>
         <div className={styles.blogParagraph}>
-          Now, we should make note that slight delays happen all the time, and
-          the MTA doesn&apos;t always send out an alert every time. But by
-          analyzing the delays which <i>do</i> generate alerts, we can inspect
-          the (more relevant) subset of delays which are big enough for subway
-          riders to care.
+          Now, we should make note that there could very well be many train
+          delays which do not end up in this dataset. But by analyzing the
+          delays which <i>do</i> generate alerts, we can inspect the (more
+          relevant) subset of delays which are big enough for subway riders to
+          care.
         </div>
         <div className={styles.blogParagraph}>
           With that said, let&apos;s start simple and take a look at the
@@ -90,33 +90,26 @@ export default function Home() {
         </div>
         <IssueTypeDistribution />
         <div className={styles.blogParagraph}>
-          This is interesting, but this view is a little too high-level to gain
-          much meaningful insight. Our next intuition would lead us to ask,
-          which trains are especially delay-prone? It wouldn&apos;t be very
-          interesting to just sum the number of alerts for each service, since
-          &quot;busier&quot; trains (e.g. the A) will naturally get more delay
-          alerts than &quot;less busy&quot; routes (e.g. the G). As a proxy for
-          &quot;business&quot;, we can use the{" "}
-          <b>planned number of trains delivered</b> for each service, which is
-          available through{" "}
-          <a
-            href="https://data.ny.gov/Transportation/MTA-Subway-Service-Delivered-Beginning-2020/bg59-42xi/about_data"
-            target="_blank"
-          >
-            another MTA dataset
-          </a>{" "}
-          (note that we could use the <i>actual</i> number of trains delivered
-          as well, but this metric is directly correlated with the number of
-          delays). When we do this, this is what we find:
+          The next natural question is, are different services
+          disproportionately affected by delays? We can take a naive approach,
+          where we simply count the total number of alerts which affect each
+          service:
         </div>
         <DelaysByRoute />
         <div className={styles.blogParagraph}>
-          The main takeaway here is that most services are averaging{" "}
-          <b>over one delay event per scheduled train</b>. It seems that the L,
-          7, and G (despite its perpetual planned maintenance) are relatively
-          reliable services. Besides those three, it doesn&apos;t seem to be the
-          case that any one line is significantly more reliable than another,
-          after adjusting for &quot;busy-ness&quot;.
+          The distribution of delay events across the different services is
+          actually surprisingly homogenous on the whole. The clear exceptions
+          are the lines which share little track with other services (namely the
+          L, JZ, G, 7, and H aka Rockaway Park Shuttle). This makes sense,
+          because services like these are unlikely to be affected by issues on
+          other services. This also helps explain why the fully-local services
+          (1, C, G, L, M, R, W) are generally less delay-prone than the rest.
+        </div>
+        <div className={styles.blogParagraph}>
+          Although we can see that different services are disproportionately
+          affected by delay events, we would still like to investigate what{" "}
+          <i>kinds</i> of issues are responsible for these delays. For this next
+          part, select a service to analyze.
         </div>
         <div className={styles.lineSelectorContainer}>
           <Dropdown
@@ -127,15 +120,28 @@ export default function Home() {
             className={styles.lineSelector}
           />
         </div>
-        {!selectedLine ? (
-          <div className={styles.blogParagraph}>
-            For this next part, go ahead and select a line above!
-          </div>
-        ) : (
+        {selectedLine && (
           <>
-            <div className={styles.blogParagraph}>Stuff</div>
+            <div className={styles.blogParagraph}>
+              What we are analyzing here is the average monthly number of delay
+              events (grouped by issue) for a given service. That monthly
+              average is then compared against the average across <i>all</i>{" "}
+              services. When a specific service&apos;s monthly average is at
+              least one standard deviation above the overall average, we color
+              it red (or green, if it&apos;s below.)
+            </div>
             <LineAverages line={selectedLine} />
-            <div className={styles.blogParagraph}></div>
+            <div className={styles.blogParagraph}>
+              We can find a number of interesting insights here; for example,
+              the 2 line has, on average, 12 more disruptive passengers than
+              average every month, and 10 more medical emergencies. The F causes
+              delays because of a train&apos;s brakes being activated 11 more
+              times per month than average, and also suffers from signal
+              problems and rail problems more than average. As one of the few
+              services that has ground-level stations, the Q deals with more
+              tree issues. Also, the Rockaway Park Shuttle only needs to connect
+              two stations, so it is extremely delay-free.
+            </div>
           </>
         )}
       </div>
