@@ -188,3 +188,9 @@ a {
   display: block;
   padding: 8px 10px;
 }
+
+ul {
+  margin-left: 3vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}

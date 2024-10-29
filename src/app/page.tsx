@@ -145,7 +145,13 @@ export default function Home() {
               we&apos;ve identified? To do this, we can look at data across
               three years and average the number of delay events across years,
               grouping by the month of the year. We can then explore these
-              yearly averages by issue type.
+              yearly averages by issue type. One potential flaw with this
+              analysis is that there appear to be naturally fewer delay alerts
+              in late summer / early fall, so looking at the raw number of
+              alerts by issue type per month might be misleading. So, we compare
+              the <i>yearly average number of delay events by issue</i> to the{" "}
+              <i>yearly average number of delays</i> grouped by month, as a
+              percent. That&apos;s what you&apos;ll see below!
             </div>
             <div className={styles.lineSelectorContainer}>
               <Dropdown
@@ -159,7 +165,58 @@ export default function Home() {
             {selectedIssue && (
               <>
                 <MonthlyAverages issue={selectedIssue} />
-                {/* <div className={styles.blogParagraph}>One thing</div> */}
+                <div className={styles.blogParagraph}>
+                  Poking around the different issues, we can pick out a few
+                  noteworthy things. For instance:
+                  <ul>
+                    <li>
+                      There seems to be a slight hump in disruptive passengers
+                      in late winter compared to late summer. Perhaps it's all
+                      the months of cold weather that's gotten to folks.
+                    </li>
+                    <li>
+                      Medical emergencies peak in the dead of winter, and so do
+                      unspecified EMS responses.
+                    </li>
+                    <li>
+                      Train cleaning also seems to cause more delays in the
+                      winter.
+                    </li>
+                    <li>
+                      On the other hand, delays due to trains being vandalized
+                      peaks in the summer.
+                    </li>
+                    <li>
+                      It's more common for a person to be struck by a train in
+                      the winter. There is a lot of existing analysis into this
+                      tragedy (see{" "}
+                      <a
+                        href="https://pubmed.ncbi.nlm.nih.gov/19064043/"
+                        target="_blank"
+                      >
+                        here, for instance
+                      </a>
+                      , but this is a reminder that the winter is a time for
+                      extra precaution around passenger safety)
+                    </li>
+                    <li>
+                      Delays due to being short-staffed peaks in December,
+                      probably for the holidays
+                    </li>
+                    <li>
+                      Fallen trees are clearly a summer issue, as summer storms
+                      are likely to knock down trees and branches
+                    </li>
+                  </ul>
+                  This comes with a warning that we only have three years to
+                  average each month across, which can result in anomalies. For
+                  example, if we group by "Flooding" events, we see a huge spike
+                  in September which suggests that flooding is 10x more likely
+                  to cause delays in September than other months. However, this
+                  is not the case. That effect is caused by the September 2023
+                  floods, which caused massive delays due to flooding, pulling
+                  up the yearly average for that month.
+                </div>
               </>
             )}
           </>

@@ -43,7 +43,6 @@ export default function LineAverages(props: LineAveragesProps) {
             OVERALL_AVERAGE_ISSUES[i].monthly_stddev,
     }))
     .sort((a, b) => b.overall_monthly_average - a.overall_monthly_average);
-  console.log(line_issues_by_month_with_average);
 
   return (
     <div
