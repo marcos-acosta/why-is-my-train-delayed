@@ -171,8 +171,9 @@ export default function Home() {
                   <ul>
                     <li>
                       There seems to be a slight hump in disruptive passengers
-                      in late winter compared to late summer. Perhaps it's all
-                      the months of cold weather that's gotten to folks.
+                      in late winter compared to late summer. Perhaps it&apos;s
+                      all the months of cold weather that&apos;s gotten to
+                      folks.
                     </li>
                     <li>
                       Medical emergencies peak in the dead of winter, and so do
@@ -187,9 +188,9 @@ export default function Home() {
                       peaks in the summer.
                     </li>
                     <li>
-                      It's more common for a person to be struck by a train in
-                      the winter. There is a lot of existing analysis into this
-                      tragedy (see{" "}
+                      It&apos;s more common for a person to be struck by a train
+                      in the winter. There is a lot of existing analysis into
+                      this tragedy (see{" "}
                       <a
                         href="https://pubmed.ncbi.nlm.nih.gov/19064043/"
                         target="_blank"
@@ -210,12 +211,12 @@ export default function Home() {
                   </ul>
                   This comes with a warning that we only have three years to
                   average each month across, which can result in anomalies. For
-                  example, if we group by "Flooding" events, we see a huge spike
-                  in September which suggests that flooding is 10x more likely
-                  to cause delays in September than other months. However, this
-                  is not the case. That effect is caused by the September 2023
-                  floods, which caused massive delays due to flooding, pulling
-                  up the yearly average for that month.
+                  example, if we group by &quot;Flooding&quot; events, we see a
+                  huge spike in September which suggests that flooding is 10x
+                  more likely to cause delays in September than other months.
+                  However, this is not the case. That effect is caused by the
+                  September 2023 floods, which caused massive delays due to
+                  flooding, pulling up the yearly average for that month.
                 </div>
               </>
             )}
